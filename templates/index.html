@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='favicon.jpg') }}">
+</head>
+<body>
+   <div> <h1 class="animated-title">CRUst</h1></div>
+   <!-- <h1 class="glitch">CRUst</h1> -->
+   <form action="/search" method="get">
+    <input type="text" name="q" placeholder="Search items..." required>
+    <button type="submit">🔍</button>
+</form>
+
+
+
+
+    <!-- <a href="/cart">Go to Cart ({{ cart_count }})</a> -->
+    <!-- <a href="/cart" class="btn">🛍️ Go to Cart</a> -->
+    <a href="/cart" class="btn"><i class="fas fa-shopping-cart"></i> Cart</a>
+    <div class="menu-container">
+        {% for item in items %}
+            <div class="menu-item">
+                <img src="{{ url_for('get_image', item_id=item.id) }}" alt="{{ item.name }}">
+                <div class="about-item">
+                    <h3>{{ item.name }}</h3>
+                
+                <p><b>Price:</b> ₹{{ item.price }}</p>
+                <p><b>Description:</b> {{ item.description }}</p>
+                </div>
+                <form action="/cart" method="post" >
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <button type="submit" name="action" value="add">Add to Cart</button>
+                    <a href="{{ item.product_link }}" alt="AR" class="ar-btn" target="_blank">
+                        <i class="fas fa-camera"></i> 
+                        <span class="auto-tooltip">View in AR</span>
+                    </a>
+                    <!-- <a href="{{ item.product_link }}" class="ar-btn" target="_blank">
+                        <img src="{{ url_for('static', filename='camera-icon.png') }}" alt="AR" class="camera-icon">
+                        <span class="auto-tooltip">View in AR</span>
+                    </a> -->
+                    
+                    
+                    <!-- <i class="fa-solid fa-camera"></i> -->
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    <section id="about">
+        <div class="about-container">
+            <h2>About <span>CRUst</span></h2>
+            <p>Welcome to CRUst, where flavors meet innovation! Our restaurant blends **delicious cuisine** with **cutting-edge technology** to provide an unforgettable experience. Explore our **AR-powered menu**, earn crypto rewards, and indulge in a next-gen dining experience!</p>
+            <p>Enjoy a seamless ordering process with our secure **blockchain-based reward system**. Order, earn, and redeem – all in one place!</p>
+            <!-- <a href="index.html" class="btn">Explore Menu</a> -->
+            <a href="{{ url_for('menu') }}" class="btn">Explore Menu</a>
+
+        </div>
+    </section>
+    
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Admin Panel</h1>
+    
+    <form action="/admin" method="post" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="Dish Name" required>
+        <input type="number" step="0.01" name="price" placeholder="Price" required>
+        <textarea name="description" placeholder="Enter description" required></textarea>
+        <input type="file" name="image_file" accept="image/*" required>
+        <input type="text" name="product_link" placeholder="Product Link (optional)">
+        <button type="submit">Add Item</button>
+        
+    </form>
+ <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    <h2>Existing Menu Items</h2>
+    <div class="menu-container">
+        {% for item in items %}
+            <div class="menu-item">
+                <img src="{{ url_for('get_image', item_id=item.id) }}" alt="{{ item.name }}">
+                <h3>{{ item.name }}</h3>
+                <p><b>Price:</b> ₹{{ item.price }}</p>
+                <p><b>Description:</b> {{ item.description }}</p>
+            </div>
+        {% endfor %}
+       
+
+    </div>
+</body>
+</html>

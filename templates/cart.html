@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Your Cart</h1>
+
+    <div class="cart-container">
+        {% if cart_items %}
+            {% for item in cart_items %}
+                <div class="cart-item">
+                    <img src="{{ url_for('get_image', item_id=item.id) }}" alt="{{ item.name }}">
+                    <h3>{{ item.name }}</h3>
+                    <p><b>Price:</b> ₹{{ item.price }}</p>
+                    <p><b>Description:</b> {{ item.description }}</p>
+                    
+                    <form method="POST" action="{{ url_for('cart') }}">
+                        <input type="hidden" name="item_id" value="{{ item.id }}">
+                        <button type="submit" name="action" value="remove">Remove</button>
+                    </form>
+                </div>
+            {% endfor %}
+            
+            <div class="bill-section">
+                <h2>Total Bill</h2>
+                <p><b>Total Amount:</b> ₹{{ total_price }}</p>
+                <button onclick="alert('Proceeding to checkout...')">Checkout</button>
+            </div>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+
+    <a href="/" class="back-btn">🔙 Back to Menu</a>
+
+</body>
+</html>

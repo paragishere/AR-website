@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | CRUst</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+</head>
+<body>
+    <header>
+        <div> <h1 class="animated-title">CRUst</h1></div>
+        <div class="cart-container">
+            <a href="/cart" class="cart-btn">🛍️ Cart ({{ cart_count }})</a>
+        </div>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for a dish..." onkeyup="filterMenu()">
+    </div>
+
+    <div class="menu-container">
+        {% for item in items %}
+            <div class="menu-item">
+                <img src="/image/{{ item.id }}" alt="{{ item.name }}">
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.description }}</p>
+                <p>Price: ₹{{ item.price }}</p>
+                <div class="buttons">
+                    <form action="/cart" method="post">
+                        <input type="hidden" name="item_id" value="{{ item.id }}">
+                        <button type="submit" class="add-btn">➕ Add to Cart</button>
+                    </form>
+                    <a href="{{ item.product_link }}" class="ar-btn" target="_blank">📷</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function filterMenu() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let items = document.querySelectorAll(".menu-item");
+
+            items.forEach(item => {
+                let name = item.querySelector("h3").textContent.toLowerCase();
+                item.style.display = name.includes(input) ? "block" : "none";
+            });
+        }
+    </script>
+</body>
+</html>
